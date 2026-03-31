@@ -44,6 +44,19 @@ python run.py
 
 ---
 
+
+
+
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144306" src="https://github.com/user-attachments/assets/2a4830e2-fa31-469b-a847-5b8f4bbd76a2" />
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144325" src="https://github.com/user-attachments/assets/a6665bfb-558b-4bba-93f0-fa12181b966c" />
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144356" src="https://github.com/user-attachments/assets/014c7f45-419f-43fb-8050-2d8cabb25e54" />
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144422" src="https://github.com/user-attachments/assets/4d817a73-8edd-4162-96c8-d3007bd1c7ec" />
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144447" src="https://github.com/user-attachments/assets/22e8abdf-af1e-427f-b326-9058ee3a0856" />
+<img width="1920" height="1080" alt="Screenshot 2026-03-31 144507" src="https://github.com/user-attachments/assets/68536e16-5bc9-496a-9e8d-bb8ffdcf6547" />
+
+
+
+
 ## Project Structure
 
 ```
@@ -151,3 +164,13 @@ Download a formatted PDF report.
 - CSRF protection enabled (disabled in dev for easy API testing)
 - `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` added to every response
 - Session cookies: `HttpOnly`, `SameSite=Lax`, `Secure` in production
+
+
+## 👨‍💻 Author
+
+**Sahil Bagde**  
+Cybersecurity | AI Enthusiast | Ethical Hacker  
+
+Passionate about building intelligent security systems that can simulate, detect, and analyze modern cyber threats.
+
+🔗 GitHub: https://github.com/sahilbagde6
