@@ -1,8 +1,0 @@
-robots.txt
-sitemap.xml
-admin
-login
-dashboard
-.git/
-.env
-backup
