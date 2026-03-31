@@ -1,0 +1,10 @@
+# Keep it small for demo
+www
+api
+dev
+staging
+admin
+mail
+blog
+test
+cdn

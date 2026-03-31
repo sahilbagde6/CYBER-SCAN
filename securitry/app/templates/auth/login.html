@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}LOGIN — SECURITRY{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">[S]</div>
+      <h2 class="auth-title">OPERATOR LOGIN</h2>
+      <p class="auth-sub">Authenticate to access the toolkit</p>
+    </div>
+
+    <div id="authError" class="input-error" style="display:none"></div>
+    <div id="authSuccess" class="auth-success" style="display:none"></div>
+
+    <div class="auth-form">
+      <div class="field-group">
+        <label class="field-label">EMAIL</label>
+        <input type="email" id="email" class="field-input" placeholder="operator@domain.com" autocomplete="email"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">PASSPHRASE</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" class="field-input" placeholder="••••••••••••" autocomplete="current-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('password')">👁</button>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="check-label">
+          <input type="checkbox" id="remember" class="check-box"/>
+          <span>REMEMBER SESSION</span>
+        </label>
+        <a href="#" class="auth-link">FORGOT KEY?</a>
+      </div>
+      <button class="auth-btn" id="loginBtn" onclick="doLogin()">AUTHENTICATE ⟶</button>
+      <p class="auth-footer">No account? <a href="/auth/signup" class="auth-link">CREATE ACCESS</a></p>
+    </div>
+    <div class="auth-glitch" aria-hidden="true">LOGIN</div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('authError');
+  const okEl  = document.getElementById('authSuccess');
+  errEl.style.display = 'none';
+  okEl.style.display  = 'none';
+
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const remember = document.getElementById('remember').checked;
+
+  if (!email || !password) {
+    errEl.textContent = '⚠ Email and password are required.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'AUTHENTICATING...';
+
+  try {
+    const res  = await fetch('/auth/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, remember }),
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      okEl.textContent = `✓ Welcome back, ${data.username}. Redirecting...`;
+      okEl.style.display = 'block';
+      setTimeout(() => window.location.href = '/dashboard', 800);
+    } else {
+      errEl.textContent = '⚠ ' + (data.error || 'Login failed.');
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'AUTHENTICATE ⟶';
+    }
+  } catch {
+    errEl.textContent = '⚠ Network error. Is the server running?';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'AUTHENTICATE ⟶';
+  }
+}
+
+function togglePw(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

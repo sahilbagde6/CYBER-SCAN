@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}SIGN UP — SECURITRY{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">[+]</div>
+      <h2 class="auth-title">CREATE ACCESS</h2>
+      <p class="auth-sub">Register as a new operator</p>
+    </div>
+
+    <div id="authError"   class="input-error"   style="display:none"></div>
+    <div id="authSuccess" class="auth-success"  style="display:none"></div>
+
+    <div class="auth-form">
+      <div class="field-group">
+        <label class="field-label">CALL SIGN (username)</label>
+        <input type="text" id="username" class="field-input" placeholder="operator_alias" autocomplete="username"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">EMAIL</label>
+        <input type="email" id="email" class="field-input" placeholder="operator@domain.com" autocomplete="email"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">PASSPHRASE <span class="field-hint">(min 8 chars)</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="password" class="field-input" placeholder="min. 8 characters" autocomplete="new-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('password')">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">CONFIRM PASSPHRASE</label>
+        <div class="pw-wrap">
+          <input type="password" id="confirm_password" class="field-input" placeholder="repeat passphrase" autocomplete="new-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('confirm_password')">👁</button>
+        </div>
+      </div>
+      <label class="check-label" style="margin-bottom:1.2rem">
+        <input type="checkbox" id="agree" class="check-box"/>
+        <span>I confirm this is for authorized use only</span>
+      </label>
+      <button class="auth-btn" id="signupBtn" onclick="doSignup()">CREATE ACCOUNT ⟶</button>
+      <p class="auth-footer">Have access? <a href="/auth/login" class="auth-link">LOGIN</a></p>
+    </div>
+    <div class="auth-glitch" aria-hidden="true">SIGNUP</div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doSignup(); });
+
+async function doSignup() {
+  const btn    = document.getElementById('signupBtn');
+  const errEl  = document.getElementById('authError');
+  const okEl   = document.getElementById('authSuccess');
+  errEl.style.display = 'none';
+  okEl.style.display  = 'none';
+
+  const username         = document.getElementById('username').value.trim();
+  const email            = document.getElementById('email').value.trim();
+  const password         = document.getElementById('password').value;
+  const confirm_password = document.getElementById('confirm_password').value;
+  const agree            = document.getElementById('agree').checked;
+
+  if (!agree) {
+    errEl.textContent = '⚠ You must confirm authorized use.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!username || !email || !password) {
+    errEl.textContent = '⚠ All fields are required.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (password !== confirm_password) {
+    errEl.textContent = '⚠ Passphrases do not match.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'CREATING...';
+
+  try {
+    const res  = await fetch('/auth/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password, confirm_password }),
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      okEl.textContent = `✓ Account created for ${data.username}. Redirecting...`;
+      okEl.style.display = 'block';
+      setTimeout(() => window.location.href = '/dashboard', 900);
+    } else {
+      errEl.textContent = '⚠ ' + (data.error || 'Signup failed.');
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'CREATE ACCOUNT ⟶';
+    }
+  } catch {
+    errEl.textContent = '⚠ Network error. Is the server running?';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'CREATE ACCOUNT ⟶';
+  }
+}
+
+function togglePw(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

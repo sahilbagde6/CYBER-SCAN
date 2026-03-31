@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}SECURITRY — Cyber Toolkit{% endblock %}
+{% block content %}
+<div class="landing">
+  <div class="landing-hero">
+    <div class="hero-badge">⬡ FOR AUTHORIZED USE ONLY ⬡</div>
+    <h1 class="hero-title">CYBER<span class="accent">SCAN</span></h1>
+    <p class="hero-sub">Advanced web reconnaissance toolkit. Identify misconfigurations before attackers do.</p>
+    <div class="hero-actions">
+      <a href="/auth/signup" class="cta-btn">GET STARTED ⟶</a>
+      <a href="/auth/login"  class="cta-btn cta-btn--ghost">LOGIN</a>
+    </div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">◈</span>
+      <h3>IP Lookup</h3>
+      <p>DNS resolution, IP geolocation and response-time analysis.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⟁</span>
+      <h3>Port Scanner</h3>
+      <p>Threaded TCP scan across 16 common ports with service identification.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⬡</span>
+      <h3>Tech Detection</h3>
+      <p>Fingerprint frameworks, CDNs, and server stacks from headers and HTML.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">↯</span>
+      <h3>Security Headers</h3>
+      <p>Audit 7 critical HTTP security headers with explanation of each risk.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⊕</span>
+      <h3>Subdomain Enum</h3>
+      <p>Wordlist-driven DNS brute-force to map the full attack surface.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⊞</span>
+      <h3>Dir Brute-Force</h3>
+      <p>Discover hidden paths, admin panels and sensitive files.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
